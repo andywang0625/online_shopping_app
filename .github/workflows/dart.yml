@@ -15,8 +15,6 @@ jobs:
       image:  google/dart:latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: flutter pub get
-    - name: Run tests
-      run: pub run test
+    - name: Flutter CLI
+      uses: steebchen/flutter@v1.0.0
+
