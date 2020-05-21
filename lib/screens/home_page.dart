@@ -109,6 +109,7 @@ class _HomePageState extends State<HomePage> {
             number: e.number,
             owner: e.userid,
             description: e.description,
+            image: e.image,
             )).toList(), controller: _scrollController,):CircularProgressIndicator(),
         )
     );
