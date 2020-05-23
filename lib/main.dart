@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'screens/home_page.dart';
 import 'screens/login_page.dart';
 import 'screens/post_page.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_){
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

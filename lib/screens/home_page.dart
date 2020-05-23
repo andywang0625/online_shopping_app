@@ -68,6 +68,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    print("asdf");
+  }
+
+  @override
   void dispose(){
     _scrollController.dispose();
     super.dispose();
@@ -81,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         },
         body: jsonEncode({
             'page': page.toString()
-        })
+        }),
     );
     if (response.statusCode == 200) {
       var postlist = json.decode(response.body) as List;
