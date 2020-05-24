@@ -15,30 +15,20 @@ class User {
 }
 
 Future<User> getUser() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String token = prefs.getString("token");
-  final response = await http.post(
-    "http://192.168.123.9:8000/api/verify_login",
-    headers: {
-      HttpHeaders.contentTypeHeader: "application/json",
-    },
-    body: jsonEncode({'token': token.toString()}),
-  );
-  if (response.statusCode == 200) {
+  final token = await ApiBaseHelper.getToken();
+  final response = jsonDecode((await ApiBaseHelper().post("verify_login", jsonEncode({
+    "token": token,
+  })))["body"]);
+  if(response["status"])
     return User(
-      id: json.decode(response.body)["id"],
-      name: json.decode(response.body)["name"],
-      email: json.decode(response.body)["email"],
+      id: response["id"],
+      name: response["name"],
+      email: response["email"],
     );
-  } else {
-    removeToken();
+  else {
+    ApiBaseHelper.removeToken();
     return User();
   }
-}
-
-removeToken() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.remove("token");
 }
 
 class OnlineShoppingAppBar extends StatefulWidget {
@@ -86,17 +76,17 @@ class _OnlineShoppingAppBarState extends State<OnlineShoppingAppBar> {
                     ListTile(
                       title: Text("Logout"),
                       onTap: () {
-                        removeToken();
+                        ApiBaseHelper.removeToken();
                         Navigator.of(context).pop();
                       },
                     ),
                     ListTile(
                       title: Text("test"),
                       onTap: (){
-
-                        ApiBaseHelper().get("tags", "").then((value){
-                          print(value);
-                        });
+//
+//                        ApiBaseHelper().get("tags", "").then((value){
+//                          print(value);
+//                        });
                       },
                     )
                   ],

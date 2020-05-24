@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:online_shopping_app/utils/ApiBaseHelper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import '../components/appbar.dart';
 import 'package:http/http.dart' as http;
+import 'package:online_shopping_app/utils/ApiBaseHelper.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key:key);
@@ -21,27 +23,22 @@ class _LoginState extends State<Login> {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    final response = await http.post(
-      "http://192.168.123.9:8000/api/login_request",
-      headers: {
-        HttpHeaders.contentTypeHeader:"application/json",
-      },
-      body: jsonEncode({
+    final response = await ApiBaseHelper().post(
+      "login_request",
+      jsonEncode({
         'name': username,
         'password': password,
       }),
     );
 
-    if(response.statusCode == 200){
-      var token = json.decode(response.body)["token"];
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("token", token);
-
+    if(response["code"] == 200){
+      var token = json.decode(response["body"])["token"];
+      await ApiBaseHelper.updateToken(token);
       Navigator.of(context).pop();
     }
     else{
       final message = SnackBar(
-        content: Text(json.decode(response.body)["error"]),
+        content: Text(json.decode(response["body"])["error"]),
       );
       _scaffoldKey.currentState.showSnackBar(message);
     }

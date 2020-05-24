@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:online_shopping_app/utils/ApiBaseHelper.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../components/appbar.dart';
@@ -67,12 +68,6 @@ class _HomePageState extends State<HomePage> {
       });
   }
 
-  @override
-  void deactivate() {
-    // TODO: implement deactivate
-    super.deactivate();
-    print("asdf");
-  }
 
   @override
   void dispose(){
@@ -81,24 +76,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   void fetchResults() async{
-    final response = await http.post(
-        "http://192.168.123.9:8000/api/posts",
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-        body: jsonEncode({
-            'page': page.toString()
-        }),
+    final response = await ApiBaseHelper().post(
+      "posts",
+      jsonEncode({
+        'page': page.toString(),
+      }),
     );
-    if (response.statusCode == 200) {
-      var postlist = json.decode(response.body) as List;
-      setState(() {
-        posts.addAll(postlist.map((e) => Post.fromJson(e)).toList());
-        isFetching=false;
-      });
-    } else {
-      throw Exception("Cannot fetch data from server");
-    }
+    var postlist = json.decode(response["body"]) as List;
+    setState(() {
+      posts.addAll(postlist.map((e) => Post.fromJson(e)).toList());
+      isFetching=false;
+    });
   }
 
   @override

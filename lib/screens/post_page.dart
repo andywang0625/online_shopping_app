@@ -6,6 +6,8 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:convert';
 
+import 'package:online_shopping_app/utils/ApiBaseHelper.dart';
+
 class PostPage extends StatefulWidget {
   final String id;
   PostPage({this.id});
@@ -41,10 +43,10 @@ class _PostPageState extends State<PostPage> {
         physics: ScrollPhysics(),
         slivers: [
           SliverAppBar(
-            expandedHeight: 400,
+            expandedHeight: imageLists.length>0?400:0,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(title),
-              background: Column(
+              background: imageLists.length>0?Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 0, bottom: 0),
@@ -65,7 +67,7 @@ class _PostPageState extends State<PostPage> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               child: Image( image: NetworkImageWithRetry(
-                                "http://192.168.123.9:8000/api/img/post/"+e["filename"],
+                                ApiBaseHelper.getBaseURL()+"img/post/"+e["filename"],
                               )),
                             );
                           },
@@ -91,7 +93,7 @@ class _PostPageState extends State<PostPage> {
                       }).toList(),
                   )
                 ],
-              ),
+              ):null,
             ),
             pinned: true,
           ),
@@ -142,33 +144,24 @@ class _PostPageState extends State<PostPage> {
   }
 
   void fetchImages() async{
-    final response = await http.get(
-      "http://192.168.123.9:8000/api/img/postid/"+widget.id,
-    );
-    if(response.statusCode == 200){
-      var imageData = json.decode(response.body);
-      setState(() {
-        imageLists = imageData;
-      });
-    }
+    final response = jsonDecode((await ApiBaseHelper().get("img/postid/"+widget.id, null))["body"]);
+    setState(() {
+      imageLists = response;
+    });
   }
 
   void fetchData() async{
-    final response = await http.post(
-      "http://192.168.123.9:8000/api/post?id="+widget.id,
-    );
-    if(response.statusCode == 200){
-      var postdata = json.decode(response.body);
-      setState(() {
-        title = postdata["data"]["postTitle"];
-        createdAt = postdata["data"]["postDate"];
-        owner = postdata["data"]["ownerid"];
-        price = postdata["data"]["price"];
-        number = postdata["data"]["quantity"];
-        description = postdata["data"]["postBody"];
-        isFetching = false;
-      });
-    }
+    final response = jsonDecode((await ApiBaseHelper().post("post?id="+widget.id))["body"]);
+    var postdata = response;
+    setState(() {
+      title = postdata["data"]["postTitle"];
+      createdAt = postdata["data"]["postDate"];
+      owner = postdata["data"]["ownerid"];
+      price = postdata["data"]["price"];
+      number = postdata["data"]["quantity"];
+      description = postdata["data"]["postBody"];
+      isFetching = false;
+    });
   }
 
   @override
