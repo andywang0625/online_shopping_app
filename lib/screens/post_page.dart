@@ -67,7 +67,7 @@ class _PostPageState extends State<PostPage> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               child: Image( image: NetworkImageWithRetry(
-                                ApiBaseHelper.getBaseURL()+"img/post/"+e["filename"],
+                                ApiBaseHelper().getBaseURL()+"img/post/"+e["filename"],
                               )),
                             );
                           },
@@ -144,14 +144,15 @@ class _PostPageState extends State<PostPage> {
   }
 
   void fetchImages() async{
-    final response = jsonDecode((await ApiBaseHelper().get("img/postid/"+widget.id, null))["body"]);
+    final response = (await ApiBaseHelper().get("img/postid/"+widget.id, null))["body"];
+    print(response);
     setState(() {
       imageLists = response;
     });
   }
 
   void fetchData() async{
-    final response = jsonDecode((await ApiBaseHelper().post("post?id="+widget.id))["body"]);
+    final response = (await ApiBaseHelper().post("post?id="+widget.id))["body"];
     var postdata = response;
     setState(() {
       title = postdata["data"]["postTitle"];

@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
         'keyWord': keyword,
       }),
     );
-    var postlist = json.decode(response["body"]) as List;
+    var postlist = response["body"] as List;
     setState(() {
       posts.addAll(postlist.map((e) => Post.fromJson(e)).toList());
       isFetching=false;

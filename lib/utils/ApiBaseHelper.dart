@@ -2,9 +2,19 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class ApiBaseHelper{
-  static final String _baseUrl = "http://192.168.123.9:8000/api/";
+  BaseOptions options = BaseOptions(
+    baseUrl: "http://192.168.123.9:8000/api/",
+    connectTimeout: 5000,
+    receiveTimeout: 3000,
+  );
+  Dio dio;
+  ApiBaseHelper(){
+    this.dio = Dio(this.options);
+    //this.dio.interceptors.add(LogInterceptor(responseBody: false));
+  }
 
   static Future<String> getToken() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,42 +32,42 @@ class ApiBaseHelper{
     prefs.remove("token");
   }
 
-  static getBaseURL(){
-    return _baseUrl;
+  String getBaseURL(){
+    return dio.options.baseUrl;
   }
 
   Future<dynamic> get(String url, [String jsonBody]) async{
     try{
-      final request = http.Request("GET", Uri.parse(_baseUrl+url));
+      Response response;
       if(jsonBody!=null)
-        request.body = jsonBody;
-      final response = await request.send();
+        response = await dio.request(url, data: jsonDecode(jsonBody), options: Options(method: "GET"));
+      else
+        response = await dio.request(url, options: Options(method: "GET"));
       return {
-        'body': await response.stream.bytesToString(),
+        'body': response.data,
         'code': response.statusCode,
       };
-    }catch(e){
-      throw BadRequestException();
+    }on DioError catch(e){
+      print(e);
+      return {'code':e};
     }
   }
 
   Future<dynamic> post(String url, [String jsonBody]) async{
     try{
-      final response =  await http.post(
-        _baseUrl+url,
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-        body: jsonBody,
-      );
+      Response response;
+      if(jsonBody!=null)
+         response = await dio.post(url, data: jsonDecode(jsonBody));
+      else
+        response = await dio.post(url);
       return {
-        'body': response.body,
+        'body': response.data,
         'code': response.statusCode,
       };
-    } catch(e){
-      throw BadRequestException();
+    } on DioError catch(e){
+      print(e);
+      return {'code':e};
     }
-
   }
 
 }
@@ -70,20 +80,4 @@ class AppException implements Exception{
   String toString(){
     return "$_prefix$_message";
   }
-}
-
-class FetchDataException extends AppException{
-  FetchDataException([String message]) : super(message, "Error During Communication");
-}
-
-class BadRequestException extends AppException{
-  BadRequestException([message]): super(message, "Invalid Request:");
-}
-
-class UnauthorisedException extends AppException {
-  UnauthorisedException([message]) : super(message, "Unauthorised: ");
-}
-
-class InvalidInputException extends AppException {
-  InvalidInputException([String message]) : super(message, "Invalid Input: ");
 }

@@ -30,15 +30,14 @@ class _LoginState extends State<Login> {
         'password': password,
       }),
     );
-
     if(response["code"] == 200){
-      var token = json.decode(response["body"])["token"];
+      var token = response["body"]["token"];
       await ApiBaseHelper.updateToken(token);
       Navigator.of(context).pop();
     }
     else{
       final message = SnackBar(
-        content: Text(json.decode(response["body"])["error"]),
+        content: response["body"]!=null?(Text(response["body"]["error"])):(Text(response["code"].response.data["error"])),
       );
       _scaffoldKey.currentState.showSnackBar(message);
     }

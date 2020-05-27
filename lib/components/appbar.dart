@@ -16,19 +16,19 @@ class User {
 
 Future<User> getUser() async {
   final token = await ApiBaseHelper.getToken();
-  final response = jsonDecode((await ApiBaseHelper().post("verify_login", jsonEncode({
-    "token": token,
-  })))["body"]);
-  if(response["status"])
-    return User(
-      id: response["id"],
-      name: response["name"],
-      email: response["email"],
-    );
-  else {
-    ApiBaseHelper.removeToken();
-    return User();
+  if(token!=null){
+    final response = (await ApiBaseHelper().post("verify_login", jsonEncode({
+      "token": token,
+    })))["body"];
+    if(response["status"])
+      return User(
+        id: response["id"],
+        name: response["name"],
+        email: response["email"],
+      );
   }
+  ApiBaseHelper.removeToken();
+  return User();
 }
 
 class OnlineShoppingAppBar extends StatefulWidget {
@@ -160,7 +160,6 @@ class _OnlineShoppingAppBarState extends State<OnlineShoppingAppBar> {
                     onTap: () {
                       Navigator.pushNamed(context, "/login").then((data) {
                         setState(() {
-                          print("runed");
                           futureUser = getUser();
                         });
                       });
