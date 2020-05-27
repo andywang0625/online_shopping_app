@@ -179,6 +179,8 @@ class SearchBarDelegate extends SearchDelegate<String>{
   @override
   Widget buildSuggestions(BuildContext context) {
     getHistory();
+    if(list==null)
+      list = [];
     return list.length!=null?ListView(
       children: [
         for(String item in list)
