@@ -145,7 +145,6 @@ class _PostPageState extends State<PostPage> {
 
   void fetchImages() async{
     final response = (await ApiBaseHelper().get("img/postid/"+widget.id, null))["body"];
-    print(response);
     setState(() {
       imageLists = response;
     });
