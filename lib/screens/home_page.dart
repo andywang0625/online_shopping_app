@@ -115,11 +115,11 @@ class _HomePageState extends State<HomePage> {
         body: Center(
           child: !isFetching?ListView(children: posts.map((e) => PostCard(
             id: e.id.toString(),
-            title: e.title,
+            title: e.title.trim(),
             price: e.price,
             number: e.number,
             owner: e.userid,
-            description: e.description,
+            description: e.description.trim(),
             image: e.image,
             )).toList(), controller: _scrollController,):CircularProgressIndicator(),
         )

@@ -104,7 +104,8 @@ class _PostPageState extends State<PostPage> {
                 ButtonBar(
                   alignment: MainAxisAlignment.center,
                   children: [
-                    Row(
+                    Flex(
+                      direction: Axis.horizontal,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(

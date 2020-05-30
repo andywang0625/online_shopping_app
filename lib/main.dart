@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/home_page.dart';
 import 'screens/login_page.dart';
 import 'screens/post_page.dart';
+import 'screens/post_edit.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -30,6 +31,10 @@ class MyApp extends StatelessWidget {
           case '/post':{
             final args = Map.from(settings.arguments);
             return MaterialPageRoute(builder: (_)=>PostPage(id: args["id"]));
+          }
+          case '/edit':{
+            final args = Map.from(settings.arguments);
+            return MaterialPageRoute(builder: (_)=>PostEdit(postId:args["id"]));
           }
           default:
             return MaterialPageRoute(builder: (_){
