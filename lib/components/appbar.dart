@@ -32,6 +32,8 @@ Future<User> getUser() async {
 }
 
 class OnlineShoppingAppBar extends StatefulWidget {
+  final currentPath;
+  OnlineShoppingAppBar({this.currentPath = "/"});
   @override
   _OnlineShoppingAppBarState createState() => _OnlineShoppingAppBarState();
 }
@@ -77,6 +79,16 @@ class _OnlineShoppingAppBarState extends State<OnlineShoppingAppBar> {
                       title: Text("Logout"),
                       onTap: () {
                         ApiBaseHelper.removeToken();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    ListTile(
+                      title: Text("My Posts"),
+                      onTap: (){
+                        if(widget.currentPath!="/myposts"){
+                          Navigator.pushNamed(
+                              context, "/myposts", arguments: {'userId': snapshot.data.id});
+                        }else
                         Navigator.of(context).pop();
                       },
                     ),

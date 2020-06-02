@@ -3,6 +3,7 @@ import 'screens/home_page.dart';
 import 'screens/login_page.dart';
 import 'screens/post_page.dart';
 import 'screens/post_edit.dart';
+import 'screens/user_posts.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: "/",
-      onGenerateRoute: (RouteSettings settings) {
+      onGenerateRoute: (settings) {
         switch(settings.name){
           case '/':
             return MaterialPageRoute(builder: (_){
@@ -35,6 +36,10 @@ class MyApp extends StatelessWidget {
           case '/edit':{
             final args = Map.from(settings.arguments);
             return MaterialPageRoute(builder: (_)=>PostEdit(postId:args["id"]));
+          }
+          case '/myposts':{
+              final args = Map.from(settings.arguments);
+              return MaterialPageRoute(builder: (_)=>UserPosts(userId: args["userId"]), settings: RouteSettings(name: "/myposts"));
           }
           default:
             return MaterialPageRoute(builder: (_){
