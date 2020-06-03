@@ -79,6 +79,7 @@ class _OnlineShoppingAppBarState extends State<OnlineShoppingAppBar> {
                       title: Text("Logout"),
                       onTap: () {
                         ApiBaseHelper.removeToken();
+                        Navigator.of(context).popUntil((route) => route.isFirst);
                         Navigator.of(context).pop();
                       },
                     ),
