@@ -10,6 +10,7 @@ class PostCard extends StatelessWidget {
     this.owner,
     this.price,
     this.cardColor=Colors.white,
+    this.type="",
   });
 
   final String id;
@@ -20,6 +21,7 @@ class PostCard extends StatelessWidget {
   final String price;
   final String description;
   final bool image;
+  final String type;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,8 @@ class PostCard extends StatelessWidget {
         color: cardColor,
         child: InkWell(
           onTap: (){
-            Navigator.pushNamed(context, "/post", arguments: {'id': id});
+            if(this.type=="")
+              Navigator.pushNamed(context, "/post", arguments: {'id': id});
           },
           child: Card(
             child: Padding(

@@ -91,6 +91,7 @@ class _UserPostsState extends State<UserPosts> {
             owner: e.userid,
             description: e.description.trim(),
             image: e.image,
+            type: "mine",
           )).toList()):CircularProgressIndicator(),
         )
     );
