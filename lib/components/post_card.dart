@@ -37,74 +37,99 @@ class PostCard extends StatelessWidget {
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
+              child: Column(
                 children: [
-                  image?Expanded(
-                    flex: 1,
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Image.network(
-                          "http://192.168.123.9:8000/api/img/post/cover/"+id,
+                  this.type=="mine"?Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: ButtonBar(
+                      buttonPadding: EdgeInsets.all(0.0),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: RaisedButton(
+                            color: Colors.red.shade700,
+                            child: Text("Delete"),
+                            onPressed: (){},
+                          ),
                         ),
-                      ),
+                        RaisedButton(
+                          color: Colors.indigo.shade700,
+                          child: Text("Edit"),
+                          onPressed: (){},
+                        )
+                      ],
                     ),
-                  ):Expanded(
-                    flex: 1,
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(7),
-                        child: Container(
-                          color: Colors.indigo.shade50,
-                          child: Center(child: Text(
-                            title[0].toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 50,
-                              color: Colors.indigo.shade800,
+                  ):Container(),
+                  Row(
+                    children: [
+                      image?Expanded(
+                        flex: 1,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(7),
+                            child: Image.network(
+                              "http://192.168.123.9:8000/api/img/post/cover/"+id,
                             ),
-                          )),
+                          ),
                         ),
+                      ):Expanded(
+                        flex: 1,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(7),
+                            child: Container(
+                              color: Colors.indigo.shade50,
+                              child: Center(child: Text(
+                                title[0].toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  color: Colors.indigo.shade800,
+                                ),
+                              )),
+                            ),
+                          ),
+                        )
                       ),
-                    )
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                Text(title, style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                ),),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 2),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 100),
+                                        child: Divider(
+                                          color: Colors.indigo.shade50,
+                                          thickness: 1,
+                                        ),
+                                      ),
+                                      Text(
+                                        description,
+                                        softWrap: false,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            Text(title, style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                            ),),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 2),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 100),
-                                    child: Divider(
-                                      color: Colors.indigo.shade50,
-                                      thickness: 1,
-                                    ),
-                                  ),
-                                  Text(
-                                    description,
-                                    softWrap: false,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                ],
-                              ),
-                            )
-                        ],
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
