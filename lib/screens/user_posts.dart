@@ -74,6 +74,21 @@ class _UserPostsState extends State<UserPosts> {
     });
   }
 
+  void deletePost(String postId) async{
+    final response = await ApiBaseHelper().post(
+      "post/delete",
+      jsonEncode({
+        'id': postId,
+        'token': await ApiBaseHelper.getToken()
+      }),
+    );
+    setState(() {
+      posts = [];
+      isFetching = true;
+    });
+    this.fetchResults();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +107,7 @@ class _UserPostsState extends State<UserPosts> {
             description: e.description.trim(),
             image: e.image,
             type: "mine",
+            delete: this.deletePost,
           )).toList()):CircularProgressIndicator(),
         )
     );

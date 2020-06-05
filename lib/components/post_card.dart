@@ -11,6 +11,8 @@ class PostCard extends StatelessWidget {
     this.price,
     this.cardColor=Colors.white,
     this.type="",
+    this.delete,
+    this.edit,
   });
 
   final String id;
@@ -22,6 +24,8 @@ class PostCard extends StatelessWidget {
   final String description;
   final bool image;
   final String type;
+  final Function delete;
+  final Function edit;
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +53,17 @@ class PostCard extends StatelessWidget {
                           child: RaisedButton(
                             color: Colors.red.shade700,
                             child: Text("Delete"),
-                            onPressed: (){},
+                            onPressed: (){
+                              this.delete(this.id);
+                            },
                           ),
                         ),
                         RaisedButton(
                           color: Colors.indigo.shade700,
                           child: Text("Edit"),
-                          onPressed: (){},
+                          onPressed: (){
+                            this.edit();
+                          },
                         )
                       ],
                     ),
