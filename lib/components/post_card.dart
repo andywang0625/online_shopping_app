@@ -54,7 +54,27 @@ class PostCard extends StatelessWidget {
                             color: Colors.red.shade700,
                             child: Text("Delete"),
                             onPressed: (){
-                              this.delete(this.id);
+                              showDialog(context: context, builder: (BuildContext context){
+                                return AlertDialog(
+                                  title: Text("Alert"),
+                                  content: Text("Are you sure you really want to delete this post?"),
+                                  actions: [
+                                    FlatButton(
+                                      child: Text("No"),
+                                      onPressed: (){
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    FlatButton(
+                                      child: Text("Yes"),
+                                      onPressed: (){
+                                        this.delete(this.id);
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
                             },
                           ),
                         ),
