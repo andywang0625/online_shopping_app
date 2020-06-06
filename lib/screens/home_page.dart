@@ -90,6 +90,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<Null> _refresh() async{
+    this.isFetching = true;
+    this.page = 0;
+    this.posts = [];
+    fetchResults();
+    return;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -113,15 +121,18 @@ class _HomePageState extends State<HomePage> {
         ),
         drawer: OnlineShoppingAppBar(),
         body: Center(
-          child: !isFetching?ListView(children: posts.map((e) => PostCard(
-            id: e.id.toString(),
-            title: e.title.trim(),
-            price: e.price,
-            number: e.number,
-            owner: e.userid,
-            description: e.description.trim(),
-            image: e.image,
-            )).toList(), controller: _scrollController,):CircularProgressIndicator(),
+          child: RefreshIndicator(
+            onRefresh: _refresh,
+            child: !isFetching?ListView(children: posts.map((e) => PostCard(
+              id: e.id.toString(),
+              title: e.title.trim(),
+              price: e.price,
+              number: e.number,
+              owner: e.userid,
+              description: e.description.trim(),
+              image: e.image,
+              )).toList(), controller: _scrollController,):CircularProgressIndicator(),
+          ),
         )
     );
   }
