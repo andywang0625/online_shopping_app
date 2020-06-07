@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/post_edit.dart';
 
 class PostCard extends StatelessWidget {
   PostCard({
@@ -12,7 +13,6 @@ class PostCard extends StatelessWidget {
     this.cardColor=Colors.white,
     this.type="",
     this.delete,
-    this.edit,
   });
 
   final String id;
@@ -25,7 +25,6 @@ class PostCard extends StatelessWidget {
   final bool image;
   final String type;
   final Function delete;
-  final Function edit;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +81,8 @@ class PostCard extends StatelessWidget {
                           color: Colors.indigo.shade700,
                           child: Text("Edit"),
                           onPressed: (){
-                            this.edit();
+                            Navigator.pushNamed(
+                                context, "/edit", arguments: {'postId': this.id});
                           },
                         )
                       ],

@@ -16,8 +16,8 @@ class _PostEditState extends State<PostEdit> {
       appBar: AppBar(
         title: Text("Editing"),
       ),
-      drawer: OnlineShoppingAppBar(),
-      body: PostEdit(postId: widget.postId),
+      body: PostEditor(postId: widget.postId),
     );
   }
 }
+//PostEdit(postId: widget.postId)

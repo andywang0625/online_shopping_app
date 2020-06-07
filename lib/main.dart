@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           }
           case '/edit':{
             final args = Map.from(settings.arguments);
-            return MaterialPageRoute(builder: (_)=>PostEdit(postId:args["id"]));
+            return MaterialPageRoute(builder: (_)=>PostEdit(postId:args["postId"]));
           }
           case '/myposts':{
               final args = Map.from(settings.arguments);

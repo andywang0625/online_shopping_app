@@ -214,5 +214,4 @@ class SearchBarDelegate extends SearchDelegate<String>{
       ],
     ):Container();
   }
-  
 }
