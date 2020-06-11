@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/ApiBaseHelper.dart';
+import 'package:flutter/services.dart';
 
 class PostEditor extends StatefulWidget {
   final String postId;
@@ -58,7 +59,12 @@ class _PostEditorState extends State<PostEditor> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Price",
+                        prefix: Text("\$"),
                       ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        WhitelistingTextInputFormatter(RegExp(r"[0-9]+(\.?[0-9]?[0-9]?)?$")),
+                      ],
                       controller: this._priceController,
                     ),
                   ),
@@ -69,6 +75,10 @@ class _PostEditorState extends State<PostEditor> {
                         border: OutlineInputBorder(),
                         labelText: "Number",
                       ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        WhitelistingTextInputFormatter.digitsOnly
+                      ],
                       controller: this._quantityController,
                     ),
                   ),
