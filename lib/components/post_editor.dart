@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/ApiBaseHelper.dart';
@@ -27,6 +29,27 @@ class _PostEditorState extends State<PostEditor> {
       this.isFetching = false;
     });
     print(postInfo["body"]["data"]);
+  }
+
+  void saveChanges() async{
+    final token = await ApiBaseHelper.getToken();
+    final response = await ApiBaseHelper().post(
+      'postEdit',
+      jsonEncode({
+        "title": _titleController.text,
+        "id": widget.postId,
+        "token":token,
+        "quantity": _quantityController.text,
+        "price": _priceController.text,
+        "description": _contentController.text
+      }),
+    );
+    if(response["code"]==202){
+      final message = SnackBar(
+        content: Text(response["body"]["data"]["result"]),
+      );
+      Scaffold.of(context).showSnackBar(message);
+    }
   }
 
   @override
@@ -109,7 +132,10 @@ class _PostEditorState extends State<PostEditor> {
                         child: Text("Save Changes", style: TextStyle(color: Colors.white),),
                       ),
                       color: Colors.indigo.shade700,
-                      onPressed: (){},
+                      onPressed: (){
+                        //Save Changes
+                        saveChanges();
+                      },
                     ),
                   ),
                 ],
