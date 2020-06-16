@@ -42,52 +42,6 @@ class PostCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  this.type=="mine"?Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: ButtonBar(
-                      buttonPadding: EdgeInsets.all(0.0),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: RaisedButton(
-                            color: Colors.red.shade700,
-                            child: Text("Delete"),
-                            onPressed: (){
-                              showDialog(context: context, builder: (BuildContext context){
-                                return AlertDialog(
-                                  title: Text("Alert"),
-                                  content: Text("Are you sure you really want to delete this post?"),
-                                  actions: [
-                                    FlatButton(
-                                      child: Text("No"),
-                                      onPressed: (){
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    FlatButton(
-                                      child: Text("Yes"),
-                                      onPressed: (){
-                                        this.delete(this.id);
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
-                            },
-                          ),
-                        ),
-                        RaisedButton(
-                          color: Colors.indigo.shade700,
-                          child: Text("Edit"),
-                          onPressed: (){
-                            Navigator.pushNamed(
-                                context, "/edit", arguments: {'postId': this.id});
-                          },
-                        )
-                      ],
-                    ),
-                  ):Container(),
                   Row(
                     children: [
                       image?Expanded(
@@ -151,11 +105,56 @@ class PostCard extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                )
+                                ),
                             ],
                           ),
                         ),
-                      )
+                      ),
+                      this.type=="mine"?Padding(
+                        padding: const EdgeInsets.only(right: 0),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: RaisedButton(
+                                color: Colors.red.shade700,
+                                child: Text("Delete", style: TextStyle(color: Colors.white),),
+                                onPressed: (){
+                                  showDialog(context: context, builder: (BuildContext context){
+                                    return AlertDialog(
+                                      title: Text("Alert"),
+                                      content: Text("Are you sure you really want to delete this post?"),
+                                      actions: [
+                                        FlatButton(
+                                          child: Text("No"),
+                                          onPressed: (){
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        FlatButton(
+                                          child: Text("Yes"),
+                                          onPressed: (){
+                                            this.delete(this.id);
+                                            Navigator.of(context).pop();
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  });
+                                },
+                              ),
+                            ),
+                            RaisedButton(
+                              color: Colors.indigo.shade700,
+                              child: Text("Edit", style: TextStyle(color: Colors.white),),
+                              onPressed: (){
+                                Navigator.pushNamed(
+                                    context, "/edit", arguments: {'postId': this.id});
+                              },
+                            )
+                          ],
+                        ),
+                      ):Container()
                     ],
                   ),
                 ],
