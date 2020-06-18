@@ -77,7 +77,7 @@ class PostCard extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                          padding: const EdgeInsets.only(top: 15, left: 15, right: 0, bottom: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -111,11 +111,11 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                       this.type=="mine"?Padding(
-                        padding: const EdgeInsets.only(right: 0),
+                        padding: const EdgeInsets.only(right: 0, left: 0),
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                               child: RaisedButton(
                                 color: Colors.red.shade700,
                                 child: Text("Delete", style: TextStyle(color: Colors.white),),
