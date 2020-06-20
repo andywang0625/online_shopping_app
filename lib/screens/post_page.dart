@@ -98,7 +98,7 @@ class _PostPageState extends State<PostPage> {
             pinned: true,
           ),
           SliverPadding(
-            padding: new EdgeInsets.all(16.0),
+            padding: new EdgeInsets.all(10.0),
             sliver: new SliverList(
               delegate: new SliverChildListDelegate([
                 ButtonBar(
