@@ -69,10 +69,13 @@ class _OnlineShoppingAppBarState extends State<OnlineShoppingAppBar> {
                     UserAccountsDrawerHeader(
                       accountName: new Text(snapshot.data.name),
                       accountEmail: new Text(snapshot.data.email),
-                      currentAccountPicture: Icon(
-                        Icons.account_circle,
-                        size: 100,
-                        color: Colors.white,
+                      currentAccountPicture: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Icon(
+                          Icons.account_circle,
+                          size: 100,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     ListTile(
